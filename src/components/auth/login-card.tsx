@@ -8,7 +8,7 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 
 import { loginSchema } from "@/lib/auth/schemas";
-import { useRegister } from "@/hooks/auth/use-register";
+import { useLogin } from "@/hooks/auth/use-login";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DottedSeparator } from "@/components/dotted-separator";
@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/form";
 
 export const LoginCard = () => {
-  const { mutate } = useRegister();
+  const { mutate } = useLogin();
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -32,7 +32,7 @@ export const LoginCard = () => {
     },
   });
   const onSubmit = (values: z.infer<typeof loginSchema>) => {
-    console.log(values);
+    mutate({ json: values });
   };
 
   return (
