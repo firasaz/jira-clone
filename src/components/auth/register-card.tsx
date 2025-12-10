@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/form";
 
 export const RegisterCard = () => {
-  const { mutate } = useRegister();
+  const { mutate, isPending } = useRegister();
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -82,7 +82,7 @@ export const RegisterCard = () => {
                   <FormMessage />
                 </FormItem>
               )}
-            ></FormField>
+            />
             {/* Email */}
             <FormField
               name="email"
@@ -99,7 +99,7 @@ export const RegisterCard = () => {
                   <FormMessage />
                 </FormItem>
               )}
-            ></FormField>
+            />
             {/* Password */}
             <FormField
               name="password"
@@ -116,9 +116,9 @@ export const RegisterCard = () => {
                   <FormMessage />
                 </FormItem>
               )}
-            ></FormField>
-            <Button disabled={false} size="lg" className="w-full">
-              Log in
+            />
+            <Button disabled={isPending} size="lg" className="w-full">
+              Sign Up
             </Button>
           </form>
         </Form>
@@ -127,7 +127,7 @@ export const RegisterCard = () => {
         <DottedSeparator />
         <CardContent className="flex flex-col gap-y-4 p-7">
           <Button
-            disabled={false}
+            disabled={isPending}
             size={"lg"}
             variant={"secondary"}
             className="w-full"
@@ -136,7 +136,7 @@ export const RegisterCard = () => {
             Login with Google
           </Button>
           <Button
-            disabled={false}
+            disabled={isPending}
             size={"lg"}
             variant={"secondary"}
             className="w-full"

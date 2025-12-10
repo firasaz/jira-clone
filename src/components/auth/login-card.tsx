@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/form";
 
 export const LoginCard = () => {
-  const { mutate } = useLogin();
+  const { mutate, isPending } = useLogin();
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -79,7 +79,7 @@ export const LoginCard = () => {
                 </FormItem>
               )}
             />
-            <Button disabled={false} size="lg" className="w-full">
+            <Button disabled={isPending} size="lg" className="w-full">
               Log in
             </Button>
           </form>
@@ -89,7 +89,7 @@ export const LoginCard = () => {
         <DottedSeparator />
         <CardContent className="flex flex-col gap-y-4 p-7">
           <Button
-            disabled={false}
+            disabled={isPending}
             size={"lg"}
             variant={"secondary"}
             className="w-full"
@@ -98,7 +98,7 @@ export const LoginCard = () => {
             Login with Google
           </Button>
           <Button
-            disabled={false}
+            disabled={isPending}
             size={"lg"}
             variant={"secondary"}
             className="w-full"

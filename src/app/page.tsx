@@ -1,9 +1,18 @@
+import { redirect } from "next/navigation";
+
+import { getCurrent } from "@/lib/auth/actions";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { UserButton } from "@/components/auth/user-button";
 
-export default function Home() {
+export default async function Home() {
+  const user = await getCurrent();
+  if (!user) redirect("/login");
+
   return (
     <div className="m-3">
+      <UserButton />
       <hr className="my-3" />
       <Input />
       <hr className="my-3" />
