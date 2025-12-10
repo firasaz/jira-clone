@@ -4,6 +4,7 @@ import { getCurrent } from "@/lib/auth/actions";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { CreateWorkspaceForm } from "@/components/workspaces/create-workspace-form";
 
 export default async function Home() {
   const user = await getCurrent();
@@ -20,6 +21,7 @@ export default async function Home() {
       <Button variant={"muted"}>Destructive</Button>
       <Button variant={"outline"}>Destructive</Button>
       <Button variant={"ghost"}>Destructive</Button>
+      <CreateWorkspaceForm />
     </div>
   );
 }
