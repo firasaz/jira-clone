@@ -1,27 +1,13 @@
 import { redirect } from "next/navigation";
 
 import { getCurrent } from "@/lib/auth/actions";
-
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { CreateWorkspaceForm } from "@/components/workspaces/create-workspace-form";
+import { getWorkspaces } from "@/lib/workspaces/actions";
 
 export default async function Home() {
   const user = await getCurrent();
   if (!user) redirect("/login");
 
-  return (
-    <div className="m-3">
-      <hr className="my-3" />
-      <Input />
-      <hr className="my-3" />
-      <Button>Primary</Button>
-      <Button variant={"destructive"}>Destructive</Button>
-      <Button variant={"teritary"}>Destructive</Button>
-      <Button variant={"muted"}>Destructive</Button>
-      <Button variant={"outline"}>Destructive</Button>
-      <Button variant={"ghost"}>Destructive</Button>
-      <CreateWorkspaceForm />
-    </div>
-  );
+  const workspaces = await getWorkspaces();
+  if (workspaces.total === 0) redirect("/workspaces/create");
+  else redirect(`/workspaces/${workspaces.documents[0].$id}`);
 }

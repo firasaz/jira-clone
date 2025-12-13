@@ -26,11 +26,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { ImageIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-interface CreateWorkspaceFormProps {
+interface EditWorkspaceFormProps {
   onCancel?: () => void;
+  initialValues: any;
 }
 
-export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
+export const EditWorkspaceForm = ({ onCancel }: EditWorkspaceFormProps) => {
   const router = useRouter();
 
   const { mutate, isPending } = useCreateWorkspace();
