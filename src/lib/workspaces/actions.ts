@@ -4,6 +4,9 @@ import { Account, Client, Databases, Query } from "node-appwrite";
 import { AUTH_COOKIE } from "@/lib/auth/constants";
 import { DATABASE_ID, MEMBERS_ID, WORKSPACES_ID } from "@/config";
 
+import { getMember } from "@/lib/workspaces/utils";
+import { Workspace } from "@/lib/workspaces/types";
+
 export const getWorkspaces = async () => {
   try {
     const client = new Client()
@@ -38,5 +41,43 @@ export const getWorkspaces = async () => {
     return workspaces;
   } catch {
     return { documents: [], total: 0 };
+  }
+};
+
+interface GetWorkspaceProps {
+  workspaceId: string;
+}
+export const getWorkspace = async ({ workspaceId }: GetWorkspaceProps) => {
+  try {
+    const client = new Client()
+      .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!)
+      .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT!);
+
+    const session = cookies().get(AUTH_COOKIE);
+    if (!session) return null;
+
+    client.setSession(session.value);
+
+    const account = new Account(client);
+    const databases = new Databases(client);
+
+    const user = await account.get();
+    const member = await getMember({
+      databases,
+      userId: user.$id,
+      workspaceId,
+    });
+    if (!member) return null; // make sure the current user can fetch this workspace
+
+    // filter out workspaces only related to current/logged in user id
+    const workspaces = await databases.getDocument<Workspace>(
+      DATABASE_ID,
+      WORKSPACES_ID,
+      workspaceId
+    );
+
+    return workspaces;
+  } catch {
+    return null;
   }
 };
