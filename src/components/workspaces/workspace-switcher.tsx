@@ -16,12 +16,22 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { WorkspaceAvatar } from "@/components/workspaces/workspace-avatar";
+import { Skeleton } from "../ui/skeleton";
+import { Loader, Loader2Icon } from "lucide-react";
+
+const WorkspaceSwitcherSkeleton = () => {
+  return (
+    <Skeleton className="h-12 w-full rounded-md flex justify-center items-center">
+      <Loader className="size-5 animate-spin" />
+    </Skeleton>
+  );
+};
 
 export const WorkspaceSwitcher = () => {
   const router = useRouter();
 
   const workspaceId = useWorkspaceId();
-  const { data: workspaces } = useGetWorkspaces();
+  const { data: workspaces, isLoading } = useGetWorkspaces();
 
   const { open } = useCreateWorkspaceModal();
 
@@ -37,24 +47,28 @@ export const WorkspaceSwitcher = () => {
           className="size-5 text-neutral-500 cursor-pointer hover:opacity-75 transition"
         />
       </div>
-      <Select onValueChange={onSelect} value={workspaceId}>
-        <SelectTrigger className="w-full bg-neutral-200 font-medium p-1 focus:ring-0">
-          <SelectValue placeholder="No workspace selected" />
-        </SelectTrigger>
-        <SelectContent>
-          {workspaces?.documents.map(workspace => (
-            <SelectItem key={workspace.$id} value={workspace.$id}>
-              <div className="flex justify-start items-center gap-3 font-medium">
-                <WorkspaceAvatar
-                  name={workspace.name}
-                  image={workspace.imageUrl}
-                />
-                <span className="truncate">{workspace.name}</span>
-              </div>
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      {isLoading ? (
+        <WorkspaceSwitcherSkeleton />
+      ) : (
+        <Select onValueChange={onSelect} value={workspaceId}>
+          <SelectTrigger className="w-full bg-neutral-200 font-medium p-1 focus:ring-0">
+            <SelectValue placeholder="No workspace selected" />
+          </SelectTrigger>
+          <SelectContent>
+            {workspaces?.documents.map(workspace => (
+              <SelectItem key={workspace.$id} value={workspace.$id}>
+                <div className="flex justify-start items-center gap-3 font-medium">
+                  <WorkspaceAvatar
+                    name={workspace.name}
+                    image={workspace.imageUrl}
+                  />
+                  <span className="truncate">{workspace.name}</span>
+                </div>
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
     </div>
   );
 };
