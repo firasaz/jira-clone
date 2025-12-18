@@ -1,15 +1,15 @@
 "use client";
 
 import { ResponsiveModal } from "@/components/responsive-modal";
-import { CreateWorkspaceForm } from "@/components/workspaces/create-workspace-form";
-import { useCreateWorkspaceModal } from "@/hooks/workspaces/use-create-workspace-modal";
+import { CreateProjectForm } from "@/components/projects/create-project-form";
+import { useCreateProjectModal } from "@/hooks/projects/use-create-project-modal";
 
-export const CreateWorkspaceModal = () => {
-  const { isOpen, setIsOpen, close } = useCreateWorkspaceModal();
+export const CreateProjectModal = () => {
+  const { isOpen, setIsOpen, close } = useCreateProjectModal();
 
   return (
     <ResponsiveModal open={isOpen} onOpenChange={setIsOpen}>
-      <CreateWorkspaceForm onCancel={close} />
+      <CreateProjectForm onCancel={close} />
     </ResponsiveModal>
   );
 };

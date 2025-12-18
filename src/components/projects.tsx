@@ -1,15 +1,20 @@
 "use client";
 
-import { useGetProjects } from "@/hooks/projects/use-get-projects";
-import { useWorkspaceId } from "@/hooks/workspaces/use-workspace-id";
-import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { RiAddCircleFill } from "react-icons/ri";
 
+import { cn } from "@/lib/utils";
+
+import { useWorkspaceId } from "@/hooks/workspaces/use-workspace-id";
+import { useGetProjects } from "@/hooks/projects/use-get-projects";
+import { useCreateProjectModal } from "@/hooks/projects/use-create-project-modal";
+import { ProjectsAvatar } from "./projects/projects-avatar";
+
 export const Projects = () => {
   const pathname = usePathname();
 
+  const { open } = useCreateProjectModal();
   const workspaceId = useWorkspaceId();
   const { data } = useGetProjects({ workspaceId });
   return (
@@ -17,7 +22,7 @@ export const Projects = () => {
       <div className="flex justify-between items-center">
         <p className="text-xs uppercase text-neutral-500">Projects</p>
         <RiAddCircleFill
-          onClick={() => {}}
+          onClick={open}
           className="size-5 text-neutral-500 cursor-pointer hover:opacity-75 transition"
         />
       </div>
@@ -32,6 +37,7 @@ export const Projects = () => {
                 isActive && "bg-white shadow-sm hover:opacity-100 text-primary"
               )}
             >
+              <ProjectsAvatar image={project.imageUrl} name={project.name} />
               <span className="truncate">{project.name}</span>
             </div>
           </Link>
