@@ -1,5 +1,7 @@
 import { Loader } from "lucide-react";
 
+import { TaskStatus } from "@/lib/tasks/types";
+
 import { useGetMembers } from "@/hooks/members/use-get-members";
 import { useGetProjects } from "@/hooks/projects/use-get-projects";
 import { useWorkspaceId } from "@/hooks/workspaces/use-workspace-id";
@@ -9,10 +11,12 @@ import { CreateTaskForm } from "@/components/tasks/create-task-form";
 
 interface CreateTaskFormWrapperProps {
   onCancel: () => void;
+  initialTaskStatus?: TaskStatus;
 }
 
 export const CreateTaskFormWrapper = ({
   onCancel,
+  initialTaskStatus,
 }: CreateTaskFormWrapperProps) => {
   const workspaceId = useWorkspaceId();
 
@@ -49,6 +53,7 @@ export const CreateTaskFormWrapper = ({
         onCancel={onCancel}
         projectOptions={projectOptions ?? []}
         memberOptions={memberOptions ?? []}
+        initialTaskStatus={initialTaskStatus}
       />
     </div>
   );

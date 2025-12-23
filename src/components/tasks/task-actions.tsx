@@ -13,6 +13,7 @@ import { useConfirm } from "@/hooks/workspaces/use-confirm";
 import { useWorkspaceId } from "@/hooks/workspaces/use-workspace-id";
 
 import { useDeleteTask } from "@/hooks/tasks/use-delete-task";
+import { useEditTaskModal } from "@/hooks/tasks/use-edit-task-modal";
 
 interface TaskActionProps {
   taskId: string;
@@ -28,6 +29,7 @@ export const TaskActions = ({
   const router = useRouter();
   const workspaceId = useWorkspaceId();
 
+  const { open } = useEditTaskModal();
   const [ConfirmDialog, confirm] = useConfirm(
     "Delete task",
     "This action cannot be undone",
@@ -52,8 +54,9 @@ export const TaskActions = ({
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-48">
+          {/* Open Task */}
           <DropdownMenuItem
-            onClick={() => {}}
+            onClick={onOpenTask}
             disabled={false}
             className="font-medium p-2"
           >
@@ -62,7 +65,7 @@ export const TaskActions = ({
           </DropdownMenuItem>
           {/* Edit task */}
           <DropdownMenuItem
-            onClick={onOpenTask}
+            onClick={() => open(taskId)}
             disabled={false}
             className="font-medium p-2"
           >

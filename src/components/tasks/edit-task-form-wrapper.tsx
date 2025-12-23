@@ -6,17 +6,22 @@ import { useWorkspaceId } from "@/hooks/workspaces/use-workspace-id";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { CreateTaskForm } from "@/components/tasks/create-task-form";
+import { useGetTask } from "@/hooks/tasks/use-get-task";
+import { EditTaskForm } from "./edit-task-form";
 
 interface EditTaskFormWrapperProps {
   onCancel: () => void;
-  id: string;
+  taskId: string;
 }
 
 export const EditTaskFormWrapper = ({
   onCancel,
-  id,
+  taskId,
 }: EditTaskFormWrapperProps) => {
   const workspaceId = useWorkspaceId();
+  const { data: initialValues, isLoading: isLoadingTask } = useGetTask({
+    taskId,
+  });
 
   const { data: projects, isLoading: isLoadingProjects } = useGetProjects({
     workspaceId,
@@ -35,7 +40,7 @@ export const EditTaskFormWrapper = ({
     name: member.name,
   }));
 
-  const isLoading = isLoadingProjects || isLoadingMembers;
+  const isLoading = isLoadingProjects || isLoadingMembers || isLoadingTask;
 
   if (isLoading)
     return (
@@ -45,13 +50,15 @@ export const EditTaskFormWrapper = ({
         </CardContent>
       </Card>
     );
+  if (!initialValues) return null;
   return (
     <div className="w-full">
-      {/* <EditTaskForm
+      <EditTaskForm
         onCancel={onCancel}
         projectOptions={projectOptions ?? []}
         memberOptions={memberOptions ?? []}
-      /> */}
+        initialValues={initialValues}
+      />
     </div>
   );
 };

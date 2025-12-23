@@ -10,7 +10,7 @@ export const EditTaskModal = () => {
   return (
     <ResponsiveModal open={!!taskId} onOpenChange={close}>
       {/* <CreateProjectForm onCancel={close} /> */}
-      {taskId && <EditTaskFormWrapper id={taskId} onCancel={close} />}
+      {taskId && <EditTaskFormWrapper taskId={taskId} onCancel={close} />}
     </ResponsiveModal>
   );
 };
