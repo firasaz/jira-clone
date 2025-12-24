@@ -13,6 +13,7 @@ import { columns } from "@/components/tasks/columns";
 import { DataTable } from "@/components/tasks/views/table/data-table";
 import { DataFilters } from "@/components/tasks/data-filters";
 import { DataKanban } from "@/components/tasks/views/kanban/data-kanban";
+import { DataCalendar } from "@/components/tasks/views/calendar/data-calendar";
 
 import { useGetTasks } from "@/hooks/tasks/use-get-tasks";
 import { useCreateTaskModal } from "@/hooks/tasks/use-create-task-modal";
@@ -94,7 +95,7 @@ export const TaskViewSwitcher = () => {
               />
             </TabsContent>
             <TabsContent value="calendar" className="mt-0">
-              Data calendar
+              <DataCalendar data={tasks?.documents ?? []} />
             </TabsContent>
           </>
         )}
